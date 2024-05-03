@@ -1,0 +1,130 @@
+use Company_SD
+
+-1- 
+select D.Dependent_name,D.Sex
+from  Employee E inner join Dependent D
+	on E.SSN = D.ESSN
+where E.Sex ='F' and D.Sex = 'F'
+union all 
+select D.Dependent_name,D.Sex 
+from  Employee E inner join Dependent D
+	on E.SSN = D.ESSN
+where E.Sex ='M' and D.Sex = 'M'
+
+-2-
+select p.Pname,Wf.Hours
+from Employee E inner join Works_for WF
+	on E.SSN = WF.ESSn
+inner join Project P 
+	on p.Pnumber = WF.Pno
+
+-3-
+select D.*
+From Departments D inner join Employee E 
+	on D.Dnum =E.Dno 
+where E.SSN = (select MIN(SSN) from Employee)
+
+-4-
+select D.Dname, MAX(Salary) as MaxSal, MIN(Salary) as MinSal, AVG(isnull(Salary,0)) as AvgSal
+From Departments D inner join Employee E 
+	on D.Dnum =E.Dno 
+group by D.Dname
+
+-5-
+select E.Fname+' '+E.Lname [Fullname]
+From Departments D inner join Employee E 
+	on E.SSN = D.MGRSSN
+where D.MGRSSN not in (select ESSN from Dependent)
+
+-6-
+select D.Dname,D.Dnum, COUNT(E.SSN) as EmpNum
+From Departments D inner join Employee E 
+	on D.Dnum =E.Dno 
+group by D.Dname,D.Dnum
+having AVG(Salary) < (select AVG(Salary) from Employee)
+
+-7-
+select E.Fname+' '+E.lname as Fullname,P.Pname
+from Employee E inner join Departments D
+	on D.Dnum = E.Dno
+inner join Project P 
+	on D.Dnum = P.Dnum 
+order by D.Dnum, Fullname asc
+
+-8-
+select MAX(salary) as TwoMaxSal 
+from Employee
+union 
+select MAX(salary) 
+from Employee
+where Salary < (Select MAX(Salary) from Employee)
+
+-9-
+select  Fullname
+from (select Fname+' '+lname as Fullname from Employee) as newTable
+where Fullname in (select dependent_name from Dependent)
+
+-9-
+select  Fname
+from Employee
+where Fname in (select dependent_name from Dependent)
+
+-10-
+SELECT E.SSN, E.Fname
+FROM Employee E
+WHERE EXISTS (
+  SELECT *
+  FROM Dependent D
+  WHERE D.ESSN = E.SSN
+);
+
+-11-
+insert into Departments values('DEPT IT',100,112233,'1-11-2006')
+
+-12-
+a-  update Departments
+	set MGRSSN = 968574
+	where Dnum = 100
+b-  update Departments
+	set MGRSSN = 102672
+	where Dnum = 20
+c-  update Employee
+	set Superssn = 102672
+	where SSN = 102660
+
+-13-
+
+update Employee
+set Superssn = 102672
+where SSN = 112233 
+
+update Employee
+set Superssn = 102672
+where SSN = 123456
+
+update Departments
+set MGRSSN = 102672
+where Dnum = 10
+
+update Works_for 
+set ESSn = 102672
+where pno = 100
+
+delete Dependent 
+where ESSN = 223344
+
+delete Works_for 
+where ESSN = 223344
+
+delete Employee 
+where SSN = 223344
+
+-14- 
+update Employee 
+set Salary += (0.3*Salary)
+from Employee E inner join Works_for WF
+	on E.SSN = WF.ESSn
+inner join Project P 
+	on p.Pnumber = WF.Pno
+where P.Pname ='Al Rabwah'
+

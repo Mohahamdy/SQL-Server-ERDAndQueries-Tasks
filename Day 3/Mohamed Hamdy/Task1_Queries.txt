@@ -1,0 +1,82 @@
+use Company_SD
+1-
+select Dnum,Dname,Fname,MGRSSN
+from Departments D,Employee E
+where E.SSN =D.MGRSSN
+-------------------------------
+2-
+select D.Dname,P.Pname 
+from Departments D, Project P
+where D.Dnum = P.Dnum
+------------------------------
+3-
+select Fname, D.*
+from Dependent D inner join Employee E 
+	on E.SSN = D.ESSN
+------------------------------
+4- 
+select Pnumber,Pname,Plocation
+from Project
+where city in ('Cairo','Alex')
+------------------------------
+5- 
+select *
+from Project
+where Pname like 'a%'
+------------------------------
+6-
+select Fname 
+from Employee 
+where Dno = 30 and Salary between 1000 and 2000
+------------------------------
+7- 
+select fname 
+from Employee E inner join Works_for WF 
+	 on E.SSN = WF.ESSn 
+inner join project P
+	on P.Pnumber = WF.Pno 
+where E.Dno = 10 and p.Pname = 'AL Rabwah' and WF.Hours >= 10
+------------------------------
+8-
+select X.Fname, X.Lname 
+from Employee X , Employee Y 
+where Y.SSN = X.Superssn and Y.Fname ='Kamel' and Y.Lname ='Mohamed'
+------------------------------
+9-
+select fname,lname,Pname
+from Employee E inner join Works_for WF
+	on E.SSN = WF.ESSn 
+inner join Project P 
+	on P.Pnumber = WF.Pno 
+order by Pname
+------------------------------
+10-
+select P.Pnumber, P.Dnum, E.Lname, E.Address, E.Bdate
+from Employee E inner join Departments D
+	on E.SSN = D.MGRSSN 
+inner join Project P
+	on D.Dnum = P.Dnum
+where P.City = 'Cairo'
+------------------------------
+11-
+select E.*
+from Employee E inner join Departments D
+	on E.SSN = D.MGRSSN 
+------------------------------
+12- 
+select E.* 
+from Employee E left Outer join Dependent D
+	on E.SSN = D.ESSN
+------------------------------
+13-
+insert into Employee 
+values('mohamed','hamdy',102672,'1/9/1999','menofia','M',3000,112233,30)
+------------------------------
+14-
+insert into Employee(Fname,Lname,SSN,Bdate,Address,Sex,Dno)
+values('ali','helmi',102660,'1/1/2000','menofia','M',30)
+------------------------------
+15-
+update Employee 
+set Salary += (0.2*salary)
+where SSN = 102672

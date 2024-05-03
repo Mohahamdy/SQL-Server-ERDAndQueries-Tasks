@@ -1,0 +1,82 @@
+use AdventureWorks2012 
+
+-1-
+select  SalesOrderID,ShipDate
+from sales.SalesOrderHeader
+where OrderDate between '2002-7-28' and '2014-7-29'
+
+-2-
+select ProductID,Name
+from production.Product 
+where StandardCost < 110
+
+-3-
+select ProductID,Name
+from production.Product 
+where Weight is null
+
+-4-
+select *
+from production.Product 
+where Color in ('red', 'silver', 'black')
+
+-5-
+select *
+from production.Product 
+where Name like 'b%'
+
+-6-
+UPDATE Production.ProductDescription
+SET Description = 'Chromoly steel_High of defects'
+WHERE ProductDescriptionID = 3
+
+select * 
+from Production.ProductDescription
+where description like '%_%'
+
+-7-
+select sum(TotalDue) as [TotalDue],OrderDate,count(SalesOrderID) as [NumOrder]
+from sales.SalesOrderHeader
+where OrderDate between '2005-07-01' AND '2006-07-31'
+group by OrderDate
+
+-8-
+select distinct(HireDate)
+from HumanResources.Employee
+
+-9-
+select AVG(distinct(ListPrice)) As [UniqueAvg]
+from Production.Product 
+
+-10-
+select 'The '+QUOTENAME(Name,'[')+space(1)+'is only! '+QUOTENAME(ListPrice,'[')
+from Production.Product 
+where ListPrice in (100,120)
+
+-11-
+a- 
+select rowguid,Name,SalesPersonID,Demographics 
+into Store_Archive
+from Sales.Store
+
+select* 
+from Store_Archive
+b-
+select rowguid,Name,SalesPersonID,Demographics 
+into Store_Archive1
+from Sales.Store
+where 1=2
+
+select* 
+from Store_Archive1
+
+-12-
+select convert(varchar(20),getdate(),101)
+union
+select convert(varchar(20),getdate(),103)
+union 
+select format(getdate(),'dd-MM-yyyy')
+union
+select format(getdate(),'dddd MMMM yyyy')
+union
+select format(getdate(),'ddd MMM yy')
